@@ -17,5 +17,49 @@ jobs:
       run: sudo xcode-select -s /Applications/Xcode_12.2.app
 
     - name: build-openssl
-      run: ./build-libssh.sh
+      run: ./build-libssl.sh
+
+    - name: create static xcframework
+      run: ./create-openssl-framework.sh static
+
+    - name: zip static xcframework
+      run: zip -r openssl-static.xcframework.zip frameworks/openssl.xcframework  
     
+    - name: create dynamic xcframework
+      run: ./create-openssl-framework.sh dynamic
+
+    - name: zip static xcframework
+      run: zip -r openssl-dynamic.xcframework.zip frameworks/openssl.xcframework  
+
+    - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+    - name: Upload Release Asset Dynamic
+        id: upload-release-asset-dynamic
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./openssl-dynamic.xcframework.zip
+          asset_name: openssl-dynamic.xcframework.zip
+          asset_content_type: application/zip
+
+    - name: Upload Release Asset Static
+        id: upload-release-asset-static 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./openssl-static.xcframework.zip
+          asset_name: openssl-static.xcframework.zip
+          asset_content_type: application/zip

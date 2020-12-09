@@ -25,7 +25,7 @@ set -u
 # SCRIPT DEFAULTS
 
 # Default version in case no version is specified
-DEFAULTVERSION="1.1.1h"
+DEFAULTVERSION="1.1.1i"
 
 # Default (=full) set of targets (OpenSSL >= 1.1.1) to build
 DEFAULTTARGETS=`cat <<TARGETS
@@ -37,11 +37,11 @@ tvos-sim-cross-x86_64 tvos64-cross-arm64
 TARGETS`
 
 # Minimum iOS/tvOS SDK version to build for
-IOS_MIN_SDK_VERSION="12.0"
-MACOS_MIN_SDK_VERSION="10.15"
-CATALYST_MIN_SDK_VERSION="10.15"
-WATCHOS_MIN_SDK_VERSION="4.0"
-TVOS_MIN_SDK_VERSION="12.0"
+IOS_MIN_SDK_VERSION="14.0"
+MACOS_MIN_SDK_VERSION="11.0"
+CATALYST_MIN_SDK_VERSION="11.0"
+WATCHOS_MIN_SDK_VERSION="6.0"
+TVOS_MIN_SDK_VERSION="14.0"
 
 # Init optional env variables (use available variable or default to empty string)
 CURL_OPTIONS="${CURL_OPTIONS:-}"

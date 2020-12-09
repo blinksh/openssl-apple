@@ -15,10 +15,16 @@ fi
 FWTYPE=$1
 FWNAME=openssl
 FWROOT=frameworks
+LBROOT=libs
 
 if [ -d $FWROOT ]; then
     echo "Removing previous $FWNAME.framework copies"
     rm -rf $FWROOT
+fi
+
+if [ -d $LBROOT ]; then
+    echo "Removing previous $FWNAME.lib copies"
+    rm -rf $LBROOT
 fi
 
 #ALL_SYSTEMS=("iPhone" "AppleTV" "MacOSX" "Catalyst" "Watch")
@@ -213,18 +219,24 @@ else
     for SYS in ${ALL_SYSTEMS[@]}; do
         SYSDIR="$FWROOT/$SYS"
         FWDIR="$SYSDIR/$FWNAME.framework"
+        LBDIR="$LBROOT/$SYS/$FWNAME.lib"
         LIBS_CRYPTO=(bin/${SYS}*/lib/libcrypto.a)
         LIBS_SSL=(bin/${SYS}*/lib/libssl.a)
 
         if [[ ${#LIBS_CRYPTO[@]} -gt 0 && -e ${LIBS_CRYPTO[0]} && ${#LIBS_SSL[@]} -gt 0 && -e ${LIBS_SSL[0]} ]]; then
             echo "Creating framework for $SYS"
             mkdir -p $FWDIR/lib
+            rm -rf $LBDIR
+            mkdir -p $LBDIR
             lipo -create ${LIBS_CRYPTO[@]} -output $FWDIR/lib/libcrypto.a
             lipo -create ${LIBS_SSL[@]} -output $FWDIR/lib/libssl.a
             libtool -static -o $FWDIR/$FWNAME $FWDIR/lib/*.a
+            cp $FWDIR/lib/* $LBDIR/
             rm -rf $FWDIR/lib
             mkdir -p $FWDIR/Headers
             cp -r include/$FWNAME/* $FWDIR/Headers/
+            mkdir -p $LBDIR/include
+            cp -r include/$FWNAME/* $LBDIR/include/
             cp -L assets/$SYS/Info.plist $FWDIR/Info.plist
             MIN_SDK_VERSION=$(get_min_sdk "$FWDIR/$FWNAME")
             OPENSSL_VERSION=$(get_openssl_version "$FWDIR/Headers/opensslv.h")

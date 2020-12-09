@@ -3,6 +3,7 @@
 bin
 src
 lib
+libs
 frameworks
 include/openssl
 *.gz

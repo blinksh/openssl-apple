@@ -27,6 +27,11 @@ set -u
 # Default version in case no version is specified
 DEFAULTVERSION="1.1.1i"
 
+# no-comp: against CRIME attack
+# no-shared: openssl-cli needs static link
+# enable-ssl-trace: cause the optional SSL_trace API to be built
+NODE_CONFIG_OPTIONS="no-comp no-shared enable-ssl-trace"
+
 # Default (=full) set of targets (OpenSSL >= 1.1.1) to build
 DEFAULTTARGETS=`cat <<TARGETS
 ios-sim-cross-x86_64 ios-sim-cross-arm64 ios64-cross-arm64 ios64-cross-arm64e
@@ -142,9 +147,9 @@ run_configure()
   echo "  Configure..."
   set +e
   if [ "${LOG_VERBOSE}" == "verbose" ]; then
-    ./Configure ${LOCAL_CONFIG_OPTIONS} no-tests | tee "${LOG}"
+    ./Configure ${LOCAL_CONFIG_OPTIONS} ${NODE_CONFIG_OPTIONS} no-tests | tee "${LOG}"
   else
-    (./Configure ${LOCAL_CONFIG_OPTIONS} no-tests > "${LOG}" 2>&1) & spinner
+    (./Configure ${LOCAL_CONFIG_OPTIONS} ${NODE_CONFIG_OPTIONS} no-tests > "${LOG}" 2>&1) & spinner
   fi
 
   # Check for error status

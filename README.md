@@ -14,16 +14,16 @@ However, this repository focuses more on framework-based setups and also adds ma
 
 # Compile library
 
-Compile OpenSSL 1.1.1h for all targets:
+Compile OpenSSL 1.1.1i for all targets:
 
 ```
-./build-libssl.sh --version=1.1.1h
+./build-libssl.sh --version=1.1.1i
 ```
 
-Compile OpenSSL 1.1.1h for specific targets:
+Compile OpenSSL 1.1.1i for specific targets:
 
 ```
-./build-libssl.sh --version=1.1.1h --targets="ios64-cross-arm64 macos64-x86_64 macos64-arm64"
+./build-libssl.sh --version=1.1.1i --targets="ios64-cross-arm64 macos64-x86_64 macos64-arm64"
 ```
 
 For all options see:

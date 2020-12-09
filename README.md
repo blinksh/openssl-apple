@@ -1,11 +1,11 @@
 # OpenSSL-Apple
 
-![iOS support](https://img.shields.io/badge/iOS-12+-blue.svg)
-![macOS support](https://img.shields.io/badge/macOS-10.15+-blue.svg)
-![macOS Catalyst support](https://img.shields.io/badge/macOS%20Catalyst-10.15+-blue.svg)
-![watchOS support](https://img.shields.io/badge/watchOS-4.0+-blue.svg)
-![tvOS support](https://img.shields.io/badge/tvOS-12+-blue.svg)
-![OpenSSL version](https://img.shields.io/badge/OpenSSL-1.1.1h-green.svg)
+![iOS support](https://img.shields.io/badge/iOS-14+-blue.svg)
+![macOS support](https://img.shields.io/badge/macOS-11.0+-blue.svg)
+![macOS Catalyst support](https://img.shields.io/badge/macOS%20Catalyst-11.0+-blue.svg)
+![watchOS support](https://img.shields.io/badge/watchOS-6.0+-blue.svg)
+![tvOS support](https://img.shields.io/badge/tvOS-14+-blue.svg)
+![OpenSSL version](https://img.shields.io/badge/OpenSSL-1.1.1i-green.svg)
 [![license](https://img.shields.io/badge/license-Apache%202.0-lightgrey.svg)](LICENSE)
 
 This is a fork of the popular work by [Felix Schulze](https://github.com/x2on), that is a set of scripts for using self-compiled builds of the OpenSSL library on the iPhone and the Apple TV.

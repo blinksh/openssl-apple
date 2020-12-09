@@ -24,15 +24,15 @@ jobs:
 
     - name: zip static xcframework
       run: zip -r openssl-static.xcframework.zip frameworks/openssl.xcframework  
+
+    - name: zip libs
+      run: zip -r openssl-libs.zip libs  
     
     - name: create dynamic xcframework
       run: ./create-openssl-framework.sh dynamic
 
     - name: zip static xcframework
       run: zip -r openssl-dynamic.xcframework.zip frameworks/openssl.xcframework  
-
-    - name: zip libs
-      run: zip -r openssl-libs.zip libs  
 
     - name: Create Release
       id: create_release

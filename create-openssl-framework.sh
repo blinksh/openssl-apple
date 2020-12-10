@@ -147,7 +147,7 @@ if [ $FWTYPE == "dynamic" ]; then
         elif [[ $PLATFORM == MacOSX* ]]; then
             MIN_SDK="-macosx_version_min $MIN_SDK_VERSION"
         elif [[ $PLATFORM == Catalyst* ]]; then
-            MIN_SDK="-platform_version mac-catalyst 13.0 $MIN_SDK_VERSION"
+            MIN_SDK="-platform_version mac-catalyst 14.0 $MIN_SDK_VERSION"
             PLATFORM="MacOSX"
         elif [[ $PLATFORM == iPhoneSimulator* ]]; then
             MIN_SDK="-ios_simulator_version_min $MIN_SDK_VERSION"
@@ -219,7 +219,7 @@ else
     for SYS in ${ALL_SYSTEMS[@]}; do
         SYSDIR="$FWROOT/$SYS"
         FWDIR="$SYSDIR/$FWNAME.framework"
-        LBDIR="$LBROOT/$SYS/$FWNAME.lib"
+        LBDIR="$LBROOT/$SYS/$FWNAME"
         LIBS_CRYPTO=(bin/${SYS}*/lib/libcrypto.a)
         LIBS_SSL=(bin/${SYS}*/lib/libssl.a)
 
@@ -231,12 +231,12 @@ else
             lipo -create ${LIBS_CRYPTO[@]} -output $FWDIR/lib/libcrypto.a
             lipo -create ${LIBS_SSL[@]} -output $FWDIR/lib/libssl.a
             libtool -static -o $FWDIR/$FWNAME $FWDIR/lib/*.a
-            cp $FWDIR/lib/* $LBDIR/
+            mkdir -p $LBDIR/include
+            cp -r include/$FWNAME $LBDIR/include
+            cp -r $FWDIR/lib $LBDIR/
             rm -rf $FWDIR/lib
             mkdir -p $FWDIR/Headers
             cp -r include/$FWNAME/* $FWDIR/Headers/
-            mkdir -p $LBDIR/include/$FWNAME
-            cp -r include/$FWNAME/* $LBDIR/include/$FWNAME/
             cp -L assets/$SYS/Info.plist $FWDIR/Info.plist
             MIN_SDK_VERSION=$(get_min_sdk "$FWDIR/$FWNAME")
             OPENSSL_VERSION=$(get_openssl_version "$FWDIR/Headers/opensslv.h")

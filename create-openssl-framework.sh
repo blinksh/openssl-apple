@@ -27,7 +27,6 @@ if [ -d $LBROOT ]; then
     rm -rf $LBROOT
 fi
 
-#ALL_SYSTEMS=("iPhone" "AppleTV" "MacOSX" "Catalyst" "Watch")
 ALL_SYSTEMS=("iPhoneOS" "iPhoneSimulator" "AppleTVOS" "AppleTVSimulator" "MacOSX" "Catalyst" "WatchOS" "WatchSimulator")
 
 function check_bitcode() {

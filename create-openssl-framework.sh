@@ -235,8 +235,8 @@ else
             rm -rf $FWDIR/lib
             mkdir -p $FWDIR/Headers
             cp -r include/$FWNAME/* $FWDIR/Headers/
-            mkdir -p $LBDIR/include
-            cp -r include/$FWNAME/* $LBDIR/include/
+            mkdir -p $LBDIR/include/$FWNAME
+            cp -r include/$FWNAME/* $LBDIR/include/$FWNAME/
             cp -L assets/$SYS/Info.plist $FWDIR/Info.plist
             MIN_SDK_VERSION=$(get_min_sdk "$FWDIR/$FWNAME")
             OPENSSL_VERSION=$(get_openssl_version "$FWDIR/Headers/opensslv.h")

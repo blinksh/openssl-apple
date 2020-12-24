@@ -14,7 +14,8 @@ fi
 
 FWTYPE=$1
 FWNAME=openssl
-FWROOT=frameworks
+FWROOT=frameworks/$FWTYPE
+XCFWROOT=xcframeworks/$FWTYPE
 LBROOT=libs
 
 if [ -d $FWROOT ]; then
@@ -250,7 +251,7 @@ else
     done
 fi
 
-# macOS symlinks
+# macOS and catalyst symlinks
 for SYS in ${ALL_SYSTEMS[@]}; do
     if [[ $SYS == "MacOSX" || $SYS == "Catalyst" ]]; then
         SYSDIR="$FWROOT/$SYS"
@@ -271,11 +272,13 @@ for SYS in ${ALL_SYSTEMS[@]}; do
         ln -s "Versions/Current/Headers"
         ln -s "Versions/Current/Resources"
 
-        cd ../../..
+        cd ../../../..
     fi
 done
 
 build_xcframework() {
+    rm -rf "$XCFWROOT/$FWNAME.xcframework"
+
     local FRAMEWORKS=($FWROOT/*/$FWNAME.framework)
     local ARGS=
     for ARG in ${FRAMEWORKS[@]}; do
@@ -283,7 +286,7 @@ build_xcframework() {
     done
 
     echo
-    xcodebuild -create-xcframework $ARGS -output "$FWROOT/$FWNAME.xcframework"
+    xcodebuild -create-xcframework $ARGS -output "$XCFWROOT/$FWNAME.xcframework"
 
     # These intermediate frameworks are silly, and not needed any more.
     #find ${FWROOT} -mindepth 1 -maxdepth 1 -type d -not -name "$FWNAME.xcframework" -exec rm -rf '{}' \;

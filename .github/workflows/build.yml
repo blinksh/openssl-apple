@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: xcode-select
-      run: sudo xcode-select -s /Applications/Xcode_12.2.app
+      run: sudo xcode-select -s /Applications/Xcode_12.3.app
 
     - name: build-openssl
       run: ./build-libssl.sh
@@ -23,7 +23,7 @@ jobs:
       run: ./create-openssl-framework.sh static
 
     - name: zip static xcframework
-      run: zip -r openssl-static.xcframework.zip frameworks/openssl.xcframework  
+      run: zip -r openssl-static.xcframework.zip xcframeworks/static/openssl.xcframework  
 
     - name: zip libs
       run: zip -r openssl-libs.zip libs  
@@ -32,7 +32,13 @@ jobs:
       run: ./create-openssl-framework.sh dynamic
 
     - name: zip static xcframework
-      run: zip -r openssl-dynamic.xcframework.zip frameworks/openssl.xcframework  
+      run: zip -r openssl-dynamic.xcframework.zip xcframeworks/dynamic/openssl.xcframework
+
+    - name: zip dynamic frameworks
+      run: zip -r openssl-dynamic.frameworks.zip frameworks/dynamic
+
+    - name: zip static frameworks
+      run: zip -r openssl-static.frameworks.zip frameworks/static
 
     - name: Create Release
       id: create_release
@@ -51,7 +57,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
         asset_path: ./openssl-dynamic.xcframework.zip
         asset_name: openssl-dynamic.xcframework.zip
         asset_content_type: application/zip
@@ -62,7 +68,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
         asset_path: ./openssl-static.xcframework.zip
         asset_name: openssl-static.xcframework.zip
         asset_content_type: application/zip
@@ -73,7 +79,29 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: ./openssl-libs.zip
         asset_name: openssl-libs.zip
+        asset_content_type: application/zip
+
+    - name: Upload Dynamic Frameworks
+      id: upload-release-asset-dynamic-frameworks
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./openssl-dynamic.frameworks.zip
+        asset_name: openssl-dynamic.frameworks.zip
+        asset_content_type: application/zip
+
+    - name: Upload Static Frameworks
+      id: upload-release-asset-static-frameworkds
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} 
+        asset_path: ./openssl-static.frameworks.zip
+        asset_name: openssl-static.frameworks.zip
         asset_content_type: application/zip

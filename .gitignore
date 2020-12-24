@@ -5,6 +5,7 @@ src
 lib
 libs
 frameworks
+xcframeworks
 include/openssl
 *.gz
 *.framework

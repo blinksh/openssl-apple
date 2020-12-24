@@ -23,7 +23,7 @@ jobs:
       run: ./create-openssl-framework.sh static
 
     - name: zip static xcframework
-      run: zip -r openssl-static.xcframework.zip xcframeworks/static/openssl.xcframework  
+      run: cd xcframeworks/static && zip -r ../../openssl-static.xcframework.zip openssl.xcframework  
 
     - name: zip libs
       run: zip -r openssl-libs.zip libs  
@@ -32,13 +32,13 @@ jobs:
       run: ./create-openssl-framework.sh dynamic
 
     - name: zip static xcframework
-      run: zip -r openssl-dynamic.xcframework.zip xcframeworks/dynamic/openssl.xcframework
+      run: cd xcframeworks/dynamic && zip -r ../../openssl-dynamic.xcframework.zip openssl.xcframework
 
     - name: zip dynamic frameworks
-      run: zip -r openssl-dynamic.frameworks.zip frameworks/dynamic
+      run: cd frameworks/dynamic && zip -r ../../openssl-dynamic.frameworks.zip .
 
     - name: zip static frameworks
-      run: zip -r openssl-static.frameworks.zip frameworks/static
+      run: cd frameworks/static && zip -r ../../openssl-static.frameworks.zip
 
     - name: Create Release
       id: create_release

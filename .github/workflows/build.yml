@@ -17,28 +17,7 @@ jobs:
       run: sudo xcode-select -s /Applications/Xcode_12.3.app
 
     - name: build-openssl
-      run: ./build-libssl.sh
-
-    - name: create static xcframework
-      run: ./create-openssl-framework.sh static
-
-    - name: zip static xcframework
-      run: cd xcframeworks/static && zip -r ../../openssl-static.xcframework.zip openssl.xcframework
-
-    - name: zip libs
-      run: zip -r openssl-libs.zip libs  
-    
-    - name: create dynamic xcframework
-      run: ./create-openssl-framework.sh dynamic
-
-    - name: zip static xcframework
-      run: cd xcframeworks/dynamic && zip -r ../../openssl-dynamic.xcframework.zip openssl.xcframework
-
-    - name: zip dynamic frameworks
-      run: cd frameworks/dynamic && zip -r ../../openssl-dynamic.frameworks.zip .
-
-    - name: zip static frameworks
-      run: cd frameworks/static && zip -r ../../openssl-static.frameworks.zip .
+      run: swift run
 
     - name: Create Release
       id: create_release
@@ -48,6 +27,7 @@ jobs:
       with:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
+        body_path: release.md
         draft: false
         prerelease: false
 

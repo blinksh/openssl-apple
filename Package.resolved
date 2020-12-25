@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "FMake",
+        "repositoryURL": "https://github.com/yury/FMake",
+        "state": {
+          "branch": null,
+          "revision": "9a16ceee4b1c94a9e7738ee68873284fde27e12b",
+          "version": "0.0.3"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

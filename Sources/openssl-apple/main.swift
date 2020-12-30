@@ -30,12 +30,12 @@ try cd("frameworks/dynamic") {
 let releaseMD =
   """
 
-    | File                            | MD5                                                 |
+    | File                            | SHA 256                                             |
     | ------------------------------- |:---------------------------------------------------:|
-    | openssl-static.xcframework.zip  | \(try md5(path: "openssl-static.xcframework.zip"))  |
-    | openssl-dynamic.xcframework.zip | \(try md5(path: "openssl-dynamic.xcframework.zip")) |
-    | openssl-static.frameworks.zip   | \(try md5(path: "openssl-static.frameworks.zip"))   |
-    | openssl-dynamic.frameworks.zip  | \(try md5(path: "openssl-dynamic.frameworks.zip"))  |
+    | openssl-static.xcframework.zip  | \(try sha(path: "openssl-static.xcframework.zip"))  |
+    | openssl-dynamic.xcframework.zip | \(try sha(path: "openssl-dynamic.xcframework.zip")) |
+    | openssl-static.frameworks.zip   | \(try sha(path: "openssl-static.frameworks.zip"))   |
+    | openssl-dynamic.frameworks.zip  | \(try sha(path: "openssl-dynamic.frameworks.zip"))  |
 
   """
 

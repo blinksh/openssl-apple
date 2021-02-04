@@ -16,7 +16,7 @@ try sh("zip --symlinks -r openssl-libs.zip libs")
 try sh("./create-openssl-framework.sh dynamic")
 
 try cd("xcframeworks/dynamic") {
-    try sh("zip -r ../../openssl-dynamic.xcframework.zip openssl.xcframework")
+    try sh("zip --symlinks -r ../../openssl-dynamic.xcframework.zip openssl.xcframework")
 }
 
 try cd("frameworks/static") {

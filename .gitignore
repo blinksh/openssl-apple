@@ -21,3 +21,4 @@ release.md
 .build
 .swiftpm
 Package.resolved
+openssl-1.1.1i

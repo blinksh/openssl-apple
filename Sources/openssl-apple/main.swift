@@ -8,10 +8,10 @@ try sh("./build-libssl.sh")
 try sh("./create-openssl-framework.sh static")
 
 try cd("xcframeworks/static") {
-    try sh("zip -r ../../openssl-static.xcframework.zip openssl.xcframework")
+    try sh("zip --symlinks -r ../../openssl-static.xcframework.zip openssl.xcframework")
 }
 
-try sh("zip -r openssl-libs.zip libs")
+try sh("zip --symlinks -r openssl-libs.zip libs")
 
 try sh("./create-openssl-framework.sh dynamic")
 
@@ -20,11 +20,11 @@ try cd("xcframeworks/dynamic") {
 }
 
 try cd("frameworks/static") {
-    try sh("zip -r ../../openssl-static.frameworks.zip .")
+    try sh("zip --symlinks -r ../../openssl-static.frameworks.zip .")
 }
 
 try cd("frameworks/dynamic") {
-    try sh("zip -r ../../openssl-dynamic.frameworks.zip .")
+    try sh("zip --symlinks -r ../../openssl-dynamic.frameworks.zip .")
 }
 
 let releaseMD =

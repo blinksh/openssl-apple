@@ -28,7 +28,7 @@ if [ -d $LBROOT ]; then
     rm -rf $LBROOT
 fi
 
-ALL_SYSTEMS=("iPhoneOS" "iPhoneSimulator" "AppleTVOS" "AppleTVSimulator" "MacOSX" "Catalyst" "WatchOS" "WatchSimulator")
+ALL_SYSTEMS=("iPhoneOS" "iPhoneSimulator")
 
 function check_bitcode() {
     local FWDIR=$1
@@ -150,13 +150,13 @@ if [ $FWTYPE == "dynamic" ]; then
             MIN_SDK="-platform_version mac-catalyst 14.0 $MIN_SDK_VERSION"
             PLATFORM="MacOSX"
         elif [[ $PLATFORM == iPhoneSimulator* ]]; then
-            MIN_SDK="-ios_simulator_version_min $MIN_SDK_VERSION"
+            MIN_SDK="-platform_version ios-simulator $MIN_SDK_VERSION $MIN_SDK_VERSION"
         elif [[ $PLATFORM == WatchOS* ]]; then
             MIN_SDK="-watchos_version_min $MIN_SDK_VERSION"
         elif [[ $PLATFORM == WatchSimulator* ]]; then
             MIN_SDK="-watchos_simulator_version_min $MIN_SDK_VERSION"
         else
-            MIN_SDK="-ios_version_min $MIN_SDK_VERSION"
+            MIN_SDK="-platform_version ios $MIN_SDK_VERSION $MIN_SDK_VERSION"
         fi
 
         CROSS_TOP="${DEVELOPER}/Platforms/${PLATFORM}.platform/Developer"

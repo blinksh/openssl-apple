@@ -25,7 +25,7 @@ set -u
 # SCRIPT DEFAULTS
 
 # Default version in case no version is specified
-DEFAULTVERSION="1.1.1k"
+DEFAULTVERSION="1.1.1w"
 
 # no-comp: against CRIME attack
 # no-shared: openssl-cli needs static link
@@ -43,18 +43,14 @@ NODE_CONFIG_OPTIONS="no-comp no-shared enable-ssl-trace"
 
 DEFAULTTARGETS=`cat <<TARGETS
 ios-sim-cross-x86_64 ios-sim-cross-arm64 ios64-cross-arm64 ios64-cross-arm64e
-macos64-x86_64 macos64-arm64
-mac-catalyst-x86_64 mac-catalyst-arm64
-watchos-cross-armv7k watchos-cross-arm64_32 watchos-sim-cross-x86_64
-tvos-sim-cross-x86_64 tvos64-cross-arm64
 TARGETS`
 
 # Minimum iOS/tvOS SDK version to build for
-IOS_MIN_SDK_VERSION="14.0"
-MACOS_MIN_SDK_VERSION="11.0"
-CATALYST_MIN_SDK_VERSION="11.0"
-WATCHOS_MIN_SDK_VERSION="6.0"
-TVOS_MIN_SDK_VERSION="14.0"
+IOS_MIN_SDK_VERSION="26.0"
+MACOS_MIN_SDK_VERSION="14.0"
+CATALYST_MIN_SDK_VERSION="15.0"
+WATCHOS_MIN_SDK_VERSION="11.0"
+TVOS_MIN_SDK_VERSION="17.0"
 
 # Init optional env variables (use available variable or default to empty string)
 CURL_OPTIONS="${CURL_OPTIONS:-}"
@@ -468,14 +464,14 @@ if [ ! -e ${OPENSSL_ARCHIVE_FILE_NAME} ]; then
 
   # Check whether file exists here (this is the location of the latest version for each branch)
   # -s be silent, -f return non-zero exit status on failure, -I get header (do not download)
-  curl ${CURL_OPTIONS} -sfI "${OPENSSL_ARCHIVE_URL}" > /dev/null
+  curl ${CURL_OPTIONS} -sfI -L "${OPENSSL_ARCHIVE_URL}" > /dev/null
 
   # If unsuccessful, try the archive
   if [ $? -ne 0 ]; then
     BRANCH=$(echo "${VERSION}" | grep -Eo '^[0-9]\.[0-9]\.[0-9]')
     OPENSSL_ARCHIVE_URL="https://www.openssl.org/source/old/${BRANCH}/${OPENSSL_ARCHIVE_FILE_NAME}"
 
-    curl ${CURL_OPTIONS} -sfI "${OPENSSL_ARCHIVE_URL}" > /dev/null
+    curl ${CURL_OPTIONS} -sfI -L "${OPENSSL_ARCHIVE_URL}" > /dev/null
   fi
 
   # Both attempts failed, so report the error
@@ -487,7 +483,7 @@ if [ ! -e ${OPENSSL_ARCHIVE_FILE_NAME} ]; then
 
   # Archive was found, so proceed with download.
   # -O Use server-specified filename for download
-  curl ${CURL_OPTIONS} -O "${OPENSSL_ARCHIVE_URL}"
+  curl ${CURL_OPTIONS} -LO "${OPENSSL_ARCHIVE_URL}"
 
 else
   echo "Using ${OPENSSL_ARCHIVE_FILE_NAME}"
